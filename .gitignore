@@ -296,9 +296,6 @@ tools/bazel
 
 # Visual Studio Code files
 .vs
-/.vscode/*
-!/.vscode/extensions.json
-!/.vscode/settings_recommended.json
 
 # YouCompleteMe config file
 .ycm_extra_conf.py
@@ -385,3 +382,6 @@ android/pytorch_android_torchvision/.cxx
 
 # Claude Code local configuration
 CLAUDE.local.md
+temp_auto_push.bat
+temp_interactive_push.bat
+.gitignore
