@@ -83,6 +83,7 @@ AMPERE_OR_ROCM = TEST_WITH_ROCM or torch.cuda.is_tf32_supported()
 
 @contextlib.contextmanager
 def torch_vital_set(value):
+    print("Mensagem:")
     stash = None
     if 'TORCH_VITAL' in os.environ:
         stash = os.environ['TORCH_VITAL']
