@@ -90,6 +90,7 @@ def torch_vital_set(value):
     try:
         yield
     finally:
+	#função relevante
         if stash:
             os.environ['TORCH_VITAL'] = stash
         else:
