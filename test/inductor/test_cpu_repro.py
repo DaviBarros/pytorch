@@ -1726,8 +1726,8 @@ class CPUReproTests(TestCase):
         )
         if input_dtype != torch.float32:
             x = x.to(dtype=input_dtype)
-        scales = torch.ones((3,))
-        zero_points = torch.zeros((3,))
+        scales = torch.randn((3,))
+        zero_points = torch.randint(0, 100, (3,))
         axis = 1
         with config.patch({"cpp.simdlen": None}):
             torch._dynamo.reset()
