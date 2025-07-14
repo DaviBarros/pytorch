@@ -1667,7 +1667,10 @@ class CPUReproTests(TestCase):
             return input
 
         use_tensor_overload_list = [False, True]
-        for use_tensor_overload in use_tensor_overload_list:
+        zero_point_list = [0, 1]
+        for use_tensor_overload, zero_point in itertools.product(
+            use_tensor_overload_list, zero_point_list
+        ):
             assert dtype in [torch.uint8, torch.int8]
             quant_min = 0 if dtype == torch.uint8 else -128
             quant_max = 255 if dtype == torch.uint8 else 127
@@ -1676,7 +1679,7 @@ class CPUReproTests(TestCase):
                 quant_min,
                 quant_max,
             )
-            zero_point = 100
+            zero_point = 0
             scale = 0.01
             if use_tensor_overload:
                 zero_point = torch.tensor(zero_point, dtype=torch.int64)
