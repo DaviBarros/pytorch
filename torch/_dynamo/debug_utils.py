@@ -291,10 +291,10 @@ def generate_env_vars_string(*, stable_output=False):
         if filter(key)
     ]
     config_string = "\n".join(config_lines)
-    return f"""\
+    return normalize_path_separator(f"""\
 import os
 {config_string}
-    """
+    """)
 
 
 def generate_config_string(*, stable_output=False):
