@@ -45,7 +45,7 @@ from torch.testing._internal.common_utils import (
     skipIfWindows,
 )
 from torch.testing._internal.hop_db import hop_db
-from torch.testing._internal.inductor_utils import GPU_TYPE, HAS_CPU, HAS_CUDA, HAS_GPU
+from torch.testing._internal.inductor_utils import GPU_TYPE, HAS_CPU, HAS_CUDA_AND_TRITON, HAS_GPU
 from torch.testing._internal.logging_utils import logs_to_string
 from torch.utils._python_dispatch import TorchDispatchMode
 
@@ -5030,7 +5030,7 @@ def wrap_test_class(orig_cls):
             dct[name] = unittest.expectedFailure
         elif name.startswith("test_"):
             backend = lookup_backend(name)
-            if not HAS_CUDA and backend == "inductor":
+            if not HAS_CUDA_AND_TRITON and backend == "inductor":
                 continue
             ctxs = [
                 compiled_autograd._enable(
