@@ -1785,16 +1785,16 @@ class TestNestedTensorDeviceType(NestedTensorTestCase):
         dropouter = torch.nn.Dropout(0.0)
         y0 = dropouter(nt)
         y1 = torch.nn.functional.dropout(nt, 0.0)
-        self.assertEqual(nt, y0)
-        self.assertEqual(nt, y1)
-        # edge case: all dropout
-        dropouter = torch.nn.Dropout(1.0)
-        y0 = dropouter(nt)
-        y1 = torch.nn.functional.dropout(nt, 1.0)
-        nt0 = torch.zeros_like(nt)
-        self.assertEqual(nt0, y0)
-        self.assertEqual(nt0, y1)
-        # normal case: normal dropout
+        self.assertRaisesRegex(
+            (RuntimeError, ValueError),
+            error_msg,
+            lambda: torch.nn.functional.dropout(nt, -0.1),
+        )
+        self.assertRaisesRegex(
+            (RuntimeError, ValueError),
+            error_msg,
+            lambda: torch.nn.functional.dropout(nt, 1.1),
+        )
         p = 0.2
         y = torch.nn.functional.dropout(nt, p)
         expect = nt.clone()
