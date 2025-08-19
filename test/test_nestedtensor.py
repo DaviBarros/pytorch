@@ -1777,10 +1777,24 @@ class TestNestedTensorDeviceType(NestedTensorTestCase):
         else:
             nt = random_nt(device, dtype, ntensors, (4, 4), layout=layout)
         # edge case: invalid dropout
-        self.assertRaises(ValueError, lambda: torch.nn.Dropout(-0.1))
-        self.assertRaises(ValueError, lambda: torch.nn.Dropout(1.1))
-        self.assertRaises(ValueError, lambda: torch.nn.functional.dropout(nt, -0.1))
-        self.assertRaises(ValueError, lambda: torch.nn.functional.dropout(nt, 1.1))
+        error_msg = "dropout probability has to be between 0 and 1"
+        # Dynamo raises RuntimeError instead of ValueError
+        self.assertRaisesRegex(
+            (RuntimeError, ValueError), error_msg, lambda: torch.nn.Dropout(-0.1)
+        )
+        self.assertRaisesRegex(
+            (RuntimeError, ValueError), error_msg, lambda: torch.nn.Dropout(1.1)
+        )
+        self.assertRaisesRegex(
+            (RuntimeError, ValueError),
+            error_msg,
+            lambda: torch.nn.functional.dropout(nt, -0.1),
+        )
+        self.assertRaisesRegex(
+            (RuntimeError, ValueError),
+            error_msg,
+            lambda: torch.nn.functional.dropout(nt, 1.1),
+        )
         # edge case: no dropout
         dropouter = torch.nn.Dropout(0.0)
         y0 = dropouter(nt)
