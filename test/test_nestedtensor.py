@@ -3774,8 +3774,11 @@ class TestNestedTensorSubclass(NestedTensorTestCase):
         ):
             torch.ops.aten.size.default(nt)
 
-        nested_int = torch.nested._internal.nested_tensor.get_tensor_symint(
-            _offsets, coeff=1
+        metadata, non_contig_offsets = _make_nested_meta(
+            offsets=_offsets,
+            lengths=None,
+            max_seqlen=None,
+            min_seqlen=None,
         )
         self.assertEqual(nt.size(), (3, nested_int, 3))
         self.assertEqual(nt.shape, (3, nested_int, 3))
