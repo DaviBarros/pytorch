@@ -5267,7 +5267,7 @@ xfail_divergence_from_eager = {
 
 skipped_tests = set()
 
-if not HAS_CUDA:
+if not HAS_CUDA_AND_TRITON:
     # Found Tesla M60 which is too old to be supported by the triton GPU compiler
     skipped_tests.add("test_type_conversions")
 
@@ -5293,7 +5293,7 @@ ActivationCheckpointingTestsWithCompiledAutograd = wrap_test_class(
     test_higher_order_ops.ActivationCheckpointingTests
 )
 
-if torch.distributed.is_available() and HAS_CUDA:
+if torch.distributed.is_available() and HAS_CUDA_AND_TRITON:
     test_dtensor = load_test_module("distributed/tensor/test_dtensor_compile")
     TestDTensorCompileWithCompiledAutograd = wrap_test_class(
         test_dtensor.TestDTensorCompile
