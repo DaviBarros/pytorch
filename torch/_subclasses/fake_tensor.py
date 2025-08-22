@@ -656,7 +656,7 @@ class FakeTensor(Tensor):
     # We expect nested_int_memo to be None when an offsets is a graph
     # intermediate, or an input that has never been associated with a
     # nested int.
-    nested_int_memo = SymNumberMemoDescriptor(is_nested_int=True)
+    nested_int_id: Optional[int] = None
 
     # FakeTensor doesn't fully emulate the original tensor's Python type
     # and dispatch key set, therefore sometimes we want to track them
