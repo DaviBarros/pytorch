@@ -2982,7 +2982,7 @@ class TestNestedTensor(torch._dynamo.test_case.TestCase, NestedTensorTestCase):
                     compile_out, inputs=g_args, grad_outputs=compile_grad_outputs
                 )
 
-        with self.branch_nested_state():
+        with fresh_tensor_registry_ctx():
             args = arg_fn()
             ref_out = fn(*args)
             ref_grads = []
